@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*- 
+'''
+TODO: accept unicode
+'''
 from text_box import TextBox
-
-
 def main():
     pass
 

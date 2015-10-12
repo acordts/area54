@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*- 
 '''
-@summary:
+@summary: text box with text_object
+@note: There is a box defined by the following dimensions:
+       box_x - width of box, in pixels
+       box_y - height of box, in pixels
 '''
 
 from text_object import TextObject
@@ -12,8 +16,8 @@ class TextBox(object):
         @param height: text box height in pixel
         @type height: int
         '''
-        self._width = width
-        self._height = height
+        self.box_x = width
+        self.box_y = height
         self._txt_obj = TextObject()
         self._txt_obj.set_font_size(1)
         self._txt_obj.text_str('')
@@ -45,17 +49,19 @@ class TextBox(object):
         '''
         self._txt_obj.set_font_size(font_size)
         txt_height, txt_width = self._txt_obj.check_text_dimensions()
-        return txt_height <= self._height and txt_width <= self._width
+        return txt_height <= self.box_y and txt_width <= self.box_x
     
     def get_scaling(self):
         '''
-        @return: font scaling details
+        @summary: calculate max font-size and perfect scaling in given box width and height
+                  while text is in one line
+        @return: font adjustment details
         @rtype: dict
+        @note: figure out the scaling necessary for the text to fit in the box best.
         '''
         txt_height, txt_width = self._txt_obj.check_text_dimensions()
-        width_scale = 1.0 * self._width / txt_width
-        height_scale = 1.0 * self._height / txt_height
+        width_scale = 1.0 * self.box_x / txt_width
+        height_scale = 1.0 * self.box_y / txt_height
         return {'font_size' : self.get_max_fnt_size(),
                 'width_scale' : width_scale,
                 'height_scale' : height_scale}
-        
