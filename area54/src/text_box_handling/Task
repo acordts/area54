@@ -8,7 +8,7 @@
 .text_object.check_text_dimensions() - A method which returns the height and width in pixels of the text_str using the current font size
 
 .What I would like you to do is to write code that determines which font size to use so that the 
-.text is as large as it can be but still fit in the box with dimensions box_x,box_y.
+text is as large as it can be but still fit in the box with dimensions box_x,box_y.
 
 .After you have done this, you can presume the following exists:
 
