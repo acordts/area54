@@ -2,6 +2,8 @@
 '''
 TODO: accept unicode
 '''
+import math
+
 from text_box_handling.text_box import TextBox
 from text_object import TextObject
 
@@ -51,6 +53,7 @@ def task_2():
 
 def task_3():
     '''
+    @summary: scale text box with default text size (1pt)
     @note: Write the code that will figure out and implement the scaling necessary for the text to fit in the box best.
     '''
     print '>>> task 3 - fitting text to box\n'
@@ -62,6 +65,7 @@ def task_3():
     
     print 'scale width:\t{0}'.format(width_scaling)
     print 'scale height:\t{0}'.format(height_scaling)
+    print 25*'-'
 
 def task_4():
     '''
@@ -72,16 +76,35 @@ def task_4():
     
     scaling_params = text_box.get_scaling_advanced()
     
-    print '\n>>> task 3.2 - fitting text to box with font scaling\n'
+    print '>> task 4 - fitting text to box with font scaling\n'
     print 'best font size:\t{font_size}\n' \
             'width_scaling:\t{width_scale}\n' \
-            'height_scale:\t{height_scale}\n'.format(**scaling_params)
+            'height_scale:\t{height_scale}'.format(**scaling_params)
+    print 25*'-'
+
+def task_5():
+    text = 'lorem ipsum und noch ein laaaaaaangeswort lorem ipsum und noch ein laaaaaaangeswort '
+#    text = 'lorem ipsum und noch ein laaaaaaangeswort lorem ipsum und'
+#    text = 'lorem ipsum und noch ein laaaaaaangeswort'
+    #text = 'abc def'
+
+    width = 100
+    height = 50
+    text_box = TextBox(width, height)
+    text_box.set_text(text)
+    print text_box.get_scaling()
+    
+    print text_box.get_min_lines()
+    print text_box.get_max_lines()
+
+
 
 def main():
     #task_1()
     #task_2()
-    task_3()
-    
+    #task_3()
+    #task_4()
+    task_5()
     
 if __name__ == '__main__':
     main()

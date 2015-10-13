@@ -36,8 +36,15 @@ class TextObject(object):
         @type text: str
         @note: Some arbitrary text. It can be any length of characters.  
         '''
-        self._text = unicode(text)
+        self._text = text
         
+    def get_text_str(self):
+        '''
+        @return: setted text
+        @rtype: str
+        '''
+        return self._text
+    
     def set_font_size(self, font_size):
         '''
         @var _font_size: font site in points
@@ -83,4 +90,4 @@ class TextObject(object):
         
         #### for relative scaling use following two lines
         #self._scale_width *= width_scale
-        #self._scale_height *= height_scale 
+        #self._scale_height *= height_scale

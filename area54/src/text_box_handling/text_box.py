@@ -2,7 +2,10 @@
 @summary:
 '''
 
+import math
+
 from text_object import TextObject
+
 
 class TextBox(object):
     def __init__(self, width, height):
@@ -56,6 +59,10 @@ class TextBox(object):
         @rtype: tuple of float
         @note: Write the code that will figure out and implement the scaling necessary for the text to fit in the box best.
         '''
+        if not self._txt_obj.get_text_str():
+            print 'text is missing'
+            return 1.0, 1.0
+        
         txt_width, txt_height = self._txt_obj.check_text_dimensions()
         width_scale = 1.0 * self._width / txt_width
         height_scale = 1.0 * self._height / txt_height
@@ -78,22 +85,19 @@ class TextBox(object):
                 'width_scale' : width_scale,
                 'height_scale' : height_scale}
         
-    def set_dimensions(self, box_width, box_height):
+    def get_min_lines(self):
         '''
-        @param box_width: new box width / x dimension
-        @type box_width: int
-        @param box_height: new box height / y dimension
-        @type box_height: int
-        @summary: (re)set box dimensions
+        @return: min line count needed to present text
+        @rtype: float
         '''
-        self._width = box_width
-        self._height = box_height
-        
-    def set_font_size(self, font_size):
+        width_scale, _ = self.get_scaling()
+        return math.ceil(1.0 / width_scale)
+    
+    def get_max_lines(self):
         '''
-        @summary: set font size to box element
-        @param font_size: font size in points of box element
-        @type font_size: int
-        '''
-        self._font_size = font_size
-        self._txt_obj.set_font_size(self._font_size)
+        @return: max line count possible present text
+        @rtype: float
+        ''' 
+        _, height_scale = self.get_scaling()
+        text = self._txt_obj.get_text_str()
+        return min(math.floor(height_scale), len(text.split()))
