@@ -4,6 +4,7 @@ TODO: accept unicode
 '''
 import math
 
+from text_box_handling.split_lib import split_text
 from text_box_handling.text_box import TextBox
 from text_object import TextObject
 
@@ -83,19 +84,17 @@ def task_4():
     print 25*'-'
 
 def task_5():
-    text = 'lorem ipsum und noch ein laaaaaaangeswort lorem ipsum und noch ein laaaaaaangeswort '
-#    text = 'lorem ipsum und noch ein laaaaaaangeswort lorem ipsum und'
-#    text = 'lorem ipsum und noch ein laaaaaaangeswort'
-    #text = 'abc def'
+    text = 'lorem ipsum and a really loooooooooooooooooong'*2
 
-    width = 100
+    width = 40
     height = 50
     text_box = TextBox(width, height)
     text_box.set_text(text)
+
     print text_box.get_scaling()
-    
     print text_box.get_min_lines()
     print text_box.get_max_lines()
+
 
 
 
@@ -104,7 +103,13 @@ def main():
     #task_2()
     #task_3()
     #task_4()
-    task_5()
+    #task_5()
+    #text = 'lorem ipsum and a really loooooooooooooooooong'*2
+    text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+    chunks = 3
+    
+    for line in split_text(text, chunks):
+        print line
     
 if __name__ == '__main__':
     main()
