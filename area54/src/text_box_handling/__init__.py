@@ -92,10 +92,10 @@ def task_5():
     lines = split_to_line_objects(text, line_cnt)
 
     print '>> task 5 - split text in equal lines\n'
+     
     for line in lines: 
         print len(line), str(line)
     print 25*'-'
-
 
 def task_6():
     '''
@@ -107,7 +107,7 @@ def main():
     #task_1()
     #task_2()
     #task_3()
-    task_4()
+    #task_4()
     task_5()
 
 if __name__ == '__main__':
