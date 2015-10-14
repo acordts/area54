@@ -4,7 +4,7 @@ TODO: accept unicode
 '''
 import math
 
-from text_box_handling.split_lib import split_text
+from text_box_handling.split_lib import split_text, split_to_line_objects
 from text_box_handling.text_box import TextBox
 from text_object import TextObject
 
@@ -84,32 +84,31 @@ def task_4():
     print 25*'-'
 
 def task_5():
-    text = 'lorem ipsum and a really loooooooooooooooooong'*2
+    '''
+    @summary: split text in lines of nearly even length
+    '''
+    text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+    line_cnt = 10
+    lines = split_to_line_objects(text, line_cnt)
 
-    width = 40
-    height = 50
-    text_box = TextBox(width, height)
-    text_box.set_text(text)
-
-    print text_box.get_scaling()
-    print text_box.get_min_lines()
-    print text_box.get_max_lines()
+    print '>> task 5 - split text in equal lines\n'
+    for line in lines: 
+        print len(line), str(line)
+    print 25*'-'
 
 
+def task_6():
+    '''
+    @summary: calculate line count using scaling
+    '''
 
 
 def main():
     #task_1()
     #task_2()
     #task_3()
-    #task_4()
-    #task_5()
-    #text = 'lorem ipsum and a really loooooooooooooooooong'*2
-    text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
-    chunks = 3
-    
-    for line in split_text(text, chunks):
-        print line
-    
+    task_4()
+    task_5()
+
 if __name__ == '__main__':
     main()

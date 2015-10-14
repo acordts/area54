@@ -9,7 +9,7 @@ class TextObject(object):
     '''
     @note: an object for text data and several methods
     '''
-    def __init__(self):
+    def __init__(self, text = ''):
         '''
         @var _text: input
         @type _text: str
@@ -24,7 +24,7 @@ class TextObject(object):
         '''
         _ = Tkinter.Tk()
 
-        self._text = ''
+        self._text = text
         self._font_size = 8
         self._font_name = 'times'
         self._scale_width = 1.0
@@ -37,13 +37,21 @@ class TextObject(object):
         @note: Some arbitrary text. It can be any length of characters.  
         '''
         self._text = text
-        
-    def get_text_str(self):
+    
+    def __str__(self):
         '''
         @return: setted text
         @rtype: str
         '''
         return self._text
+    
+    def __len__(self):
+        '''
+        @return: text width
+        @rtype: float
+        '''
+        width, _ = self.check_text_dimensions()
+        return width
     
     def set_font_size(self, font_size):
         '''
@@ -84,10 +92,10 @@ class TextObject(object):
         @attention: the scale values are absolute and ignore scalings entered before
         @note: text_object.scale(a,b) - A method which takes two arguments, one for scaling the width value, one for scaling the
                height value of text_object.text_str
+        #### for relative scaling use following two lines
+        #self._scale_width *= width_scale
+        #self._scale_height *= height_scale
         '''
         self._scale_width = width_scale * 1.0
         self._scale_height = height_scale * 1.0
         
-        #### for relative scaling use following two lines
-        #self._scale_width *= width_scale
-        #self._scale_height *= height_scale

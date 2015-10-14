@@ -59,7 +59,7 @@ class TextBox(object):
         @rtype: tuple of float
         @note: Write the code that will figure out and implement the scaling necessary for the text to fit in the box best.
         '''
-        if not self._txt_obj.get_text_str():
+        if not str(self._txt_obj):
             print 'text is missing'
             return 1.0, 1.0
         
@@ -99,5 +99,5 @@ class TextBox(object):
         @rtype: float
         ''' 
         _, height_scale = self.get_scaling()
-        text = self._txt_obj.get_text_str()
+        text = str(self._txt_obj)
         return min(math.floor(height_scale), len(text.split()))
