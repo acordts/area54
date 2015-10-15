@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 '''
-
+@summary: tasks / examples splitted in functions
 '''
 import math
 
@@ -58,7 +58,6 @@ def task_3():
     '''
     print '>>> task 3 -\tfitting text to box\n'
 
-    # define no font size in box element, fallback use font size 1
     text_box = TextBox(100, 50)
     text_box.set_text('foobar')
     width_scaling, height_scaling = text_box.get_scaling()
@@ -132,7 +131,7 @@ def task_7():
     '''
     @summary: calculate scaling of wrapped text
     '''
-    print '>> task 6 - calculate best line count fitting to box ratio\n'
+    print '>> task 7 - calculate best font size and scaling for wrapped text\n'
 
     box_height = 400
     box_width = 800
@@ -156,12 +155,13 @@ def task_7():
     print 50*'-'
 
 def main():
-    #task_1()
-    #task_2()
-    #task_3()
-    #task_4()
-    #task_5_1()
-    #task_5_2()
+    task_1()
+    task_2()
+    task_3()
+    task_4()
+    task_5_1()
+    task_5_2()
+    task_6()
     task_7()
 
 if __name__ == '__main__':
