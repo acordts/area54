@@ -118,23 +118,51 @@ def task_6():
     '''
     print '>> task 6 - calculate best line count fitting to box ratio\n'
 
-    box_width = 800
     box_height = 400
+    box_width = 800
     text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
 
     line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)
     lines = split_lib.split_to_line_objects_v2(text, line_cnt, ' ')
     for l in lines: print len(l), str(l);
+
+    print 50*'-'
+
+def task_7():
+    '''
+    @summary: calculate scaling of wrapped text
+    '''
+    print '>> task 6 - calculate best line count fitting to box ratio\n'
+
+    box_height = 400
+    box_width = 800
+    text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+
+    line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)
+    line_txt_objs = split_lib.split_to_line_objects_v2(text, line_cnt, ' ')
+
+    line_txt_objs.sort(key=lambda x: len(x), reverse=True)
+    longest_line = line_txt_objs[0]
+
+    dst_line_height = 1.0 * box_height / len(line_txt_objs)
+    text_box = TextBox(box_width, dst_line_height)
+    text_box.set_text(str(longest_line))
+
+    scaling_params = text_box.get_scaling_advanced()
+    print 'best font size:\t{font_size}\n' \
+            'width_scaling:\t{width_scale}\n' \
+            'height_scale:\t{height_scale}'.format(**scaling_params)
+    
     print 50*'-'
 
 def main():
-    task_1()
-    task_2()
-    task_3()
-    task_4()
-    task_5_1()
-    task_5_2()
-    task_6()
+    #task_1()
+    #task_2()
+    #task_3()
+    #task_4()
+    #task_5_1()
+    #task_5_2()
+    task_7()
 
 if __name__ == '__main__':
     main()
