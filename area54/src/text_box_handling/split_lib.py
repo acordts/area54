@@ -26,14 +26,14 @@ def split_text(text, chunk_count, delimiter=' '):
 
     chunks.append(text[:pointer])
     rest = text[pointer:].strip()
-    
+
     if chunk_count > 2:
         chunks.extend(split_text(rest, chunk_count - 1))
     else:
         chunks.append(rest)
 
     return chunks
-    
+
 def split_to_line_objects(text, line_cnt, delimiter=' '):
     '''
     @summary: split text objects in almost equal chunks
@@ -53,7 +53,7 @@ def split_to_line_objects(text, line_cnt, delimiter=' '):
 
     delimiter_width = len(TextObject(delimiter))
     words = text.split(delimiter)
-    
+
     line = TextObject()
 
     for word_nr in xrange(len(words)):
@@ -70,9 +70,9 @@ def split_to_line_objects(text, line_cnt, delimiter=' '):
 
     lines = [line]
     lines.extend(split_to_line_objects(text, line_cnt - 1, delimiter))
-    return lines    
-    
-def split_to_line_objects_v2(text, line_cnt, delimiter=' ', opt_len = 0):
+    return lines
+
+def split_to_line_objects_v2(text, line_cnt, delimiter=' ', opt_len=0):
     '''
     @summary: split text objects in almost equal chunks
     @param text: text to split
@@ -91,11 +91,11 @@ def split_to_line_objects_v2(text, line_cnt, delimiter=' ', opt_len = 0):
     '''
     if not opt_len:
         deleted_spacer = len(TextObject(10 * delimiter))
-        opt_len = (len(TextObject(text))-deleted_spacer) / line_cnt
+        opt_len = (len(TextObject(text)) - deleted_spacer) / line_cnt
 
     delimiter_width = len(TextObject(delimiter))
     words = text.split(delimiter)
-    
+
     line = TextObject()
 
     for word_nr in xrange(len(words)):
@@ -113,3 +113,18 @@ def split_to_line_objects_v2(text, line_cnt, delimiter=' ', opt_len = 0):
     lines = [line]
     lines.extend(split_to_line_objects_v2(text, line_cnt - 1, delimiter, opt_len))
     return lines
+
+def best_ratio(box_w, box_h, txt_len):
+    '''
+    @return: best line lenght / line count to fit in box 
+    '''
+    txt_h = 1
+    box_ratio = 1.0 * box_h / box_w
+    print 'box ratio: ', box_ratio
+    print 'text ratio: ', 1.0 * txt_h / txt_len
+
+    for i in xrange(1, box_h + 1):
+        new_ratio = 1.0 * (txt_h * i) / (txt_len / i)
+        if new_ratio > box_ratio:
+            break
+    return (txt_len / i), (txt_h * i)
