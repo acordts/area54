@@ -1,17 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-There is a box defined by the following dimensions:
-box_x - width of box, in pixels
-box_y - height of box, in pixels
-
-text_object - an object for text data and several methods
-text_object.text_str - Some arbitrary text. It can be any length of characters.
-text_object.setfontsize(fontsize) - A method with one parameter to set the fontsize in points of the text_str.
-text_object.check_text_dimensions() - A method which returns the height and width in pixels of the text_str using the current font size
-
-What I would like you to do is to write code that determines which font size to use so that the 
-text is as large as it can be but still fit in the box with dimensions box_x,box_y.
+@author: acordts
 '''
 from PyQt4 import QtGui, QtCore
 from PyQt4.Qt import QString, QStyle
@@ -285,5 +275,5 @@ def txt_obj_test():
     
     app.exec_()
 if __name__ == '__main__':
-    txt_obj_test()
-    #main()
+    #txt_obj_test()
+    main()
