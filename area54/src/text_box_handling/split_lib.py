@@ -114,17 +114,26 @@ def split_to_line_objects_v2(text, line_cnt, delimiter=' ', opt_len=0):
     lines.extend(split_to_line_objects_v2(text, line_cnt - 1, delimiter, opt_len))
     return lines
 
-def best_ratio(box_w, box_h, txt_len):
+def opt_line_cnt(box_w, box_h, text):
     '''
-    @return: best line lenght / line count to fit in box 
+    @param box_w: width of text box in pixel
+    @type box_w: int
+    @param box_h: height of text box in pixel
+    @type box_h: int
+    @param text: text to scale
+    @type text: str
+    @return: best line length and line count to fit in box 
+    @rtype: int
     '''
-    txt_h = 1
-    box_ratio = 1.0 * box_h / box_w
-    print 'box ratio: ', box_ratio
-    print 'text ratio: ', 1.0 * txt_h / txt_len
+    txt_obj = TextObject(text)
+    txt_width = len(txt_obj)
+    line_height = txt_obj.get_line_height()
 
-    for i in xrange(1, box_h + 1):
-        new_ratio = 1.0 * (txt_h * i) / (txt_len / i)
+    box_ratio = 1.0 * box_h / box_w
+    max_lines = int(math.floor(box_h/line_height))
+        
+    for i in xrange(1, max_lines + 1):
+        new_ratio = 1.0 * (line_height * i) / (txt_width / i)
         if new_ratio > box_ratio:
             break
-    return (txt_len / i), (txt_h * i)
+    return i

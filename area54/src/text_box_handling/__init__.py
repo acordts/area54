@@ -4,10 +4,9 @@ TODO: accept unicode
 '''
 import math
 
-from text_box_handling.split_lib import split_text, split_to_line_objects
+from text_box_handling import split_lib
 from text_box_handling.text_box import TextBox
 from text_object import TextObject
-
 
 def task_1():
     '''
@@ -83,15 +82,29 @@ def task_4():
             'height_scale:\t{height_scale}'.format(**scaling_params)
     print 25*'-'
 
-def task_5():
+def task_5_1():
     '''
     @summary: split text in lines of nearly even length
     '''
     text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
     line_cnt = 10
-    lines = split_to_line_objects(text, line_cnt)
+    lines = split_lib.split_to_line_objects(text, line_cnt)
 
-    print '>> task 5 - split text in equal lines\n'
+    print '>> task 5_1 - split text in equal lines v1\n'
+     
+    for line in lines: 
+        print len(line), str(line)
+    print 25*'-'
+
+def task_5_2():
+    '''
+    @summary: split text in lines of nearly even length
+    '''
+    text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+    line_cnt = 10
+    lines = split_lib.split_to_line_objects(text, line_cnt)
+
+    print '>> task 5_2 - split text in equal lines v2\n'
      
     for line in lines: 
         print len(line), str(line)
@@ -99,16 +112,26 @@ def task_5():
 
 def task_6():
     '''
-    @summary: calculate line count using scaling
+    @summary: calculate line cnt for best scaling 
     '''
+    print '>> task 6 - calculate best line count fitting to box ratio\n'
 
+    box_width = 800
+    box_height = 400
+    text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+
+    line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)
+    lines = split_lib.split_to_line_objects_v2(text, line_cnt, ' ')
+    for l in lines: print len(l), str(l);
 
 def main():
     #task_1()
     #task_2()
     #task_3()
     #task_4()
-    task_5()
+    #task_5_1()
+    #task_5_2()
+    task_6()
 
 if __name__ == '__main__':
     main()

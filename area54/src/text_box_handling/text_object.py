@@ -25,11 +25,12 @@ class TextObject(object):
         _ = Tkinter.Tk()
 
         self._text = text
-        self._font_size = 8
+        self._font_size = 1
         self._font_name = 'times'
         self._scale_width = 1.0
         self._scale_height = 1.0
-    
+        self._width, self._height = self.check_text_dimensions()
+
     def text_str(self, text):
         '''
         @param text: input
@@ -37,6 +38,7 @@ class TextObject(object):
         @note: Some arbitrary text. It can be any length of characters.  
         '''
         self._text = text
+        self._width, self._height = self.check_text_dimensions()
     
     def __str__(self):
         '''
@@ -48,10 +50,16 @@ class TextObject(object):
     def __len__(self):
         '''
         @return: text width
-        @rtype: float
+        @rtype: int
         '''
-        width, _ = self.check_text_dimensions()
-        return width
+        return self._width
+    
+    def get_line_height(self):
+        '''
+        @return: text line height
+        @rtype: int
+        '''
+        return int(self._height)
     
     def set_font_size(self, font_size):
         '''
@@ -88,14 +96,23 @@ class TextObject(object):
         @type width_scale: float
         @param height_scale: set text height scaling
         @type height_scale: float
-        @summary: set text scaling
+        @summary: set absolute text scaling
         @attention: the scale values are absolute and ignore scalings entered before
         @note: text_object.scale(a,b) - A method which takes two arguments, one for scaling the width value, one for scaling the
-               height value of text_object.text_str
-        #### for relative scaling use following two lines
-        #self._scale_width *= width_scale
-        #self._scale_height *= height_scale
         '''
         self._scale_width = width_scale * 1.0
         self._scale_height = height_scale * 1.0
+    
+    def scale_rel(self, width_scale, height_scale):
+        '''
+        @param width_scale: set text width scaling
+        @type width_scale: float
+        @param height_scale: set text height scaling
+        @type height_scale: float
+        @summary: set relative text scaling
+        '''
+        self._scale_width *= width_scale
+        self._scale_height *= height_scale
         
+    # alias
+    scale_abs = scale
