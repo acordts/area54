@@ -1,4 +1,4 @@
 # area54
-1st steps on GitHub
+python sources and 1st steps on GitHub
 
 done.
