@@ -77,8 +77,8 @@ class MainWindow(object):
         self._log_lbl.move(self._margin, self._height - 100 - self._margin)
         self._log_lbl.resize(self._width - 2*self._margin, 100)
 
-        btn = QtGui.QPushButton('scale', self._main_window)
-        btn.released.connect(self._scale)
+        btn = QtGui.QPushButton('warp', self._main_window)
+        btn.released.connect(self._warp)
         btn.move(self._width - btn.width()-self._margin, self._margin)
 
         self._dst_lbl = QtGui.QLabel(self._main_window)
@@ -92,11 +92,11 @@ class MainWindow(object):
         self._main_window.show()
         
     @pyqtSlot()
-    def _scale(self):
+    def _warp(self):
         '''
         @summary: calculate best fitting
         '''
-        print '>>> scale'
+        print '>>> warp'
         box_width = int(self._box_width.text())
         box_height = int(self._box_height.text())
         self._dst_lbl.resize(box_width, box_height)
