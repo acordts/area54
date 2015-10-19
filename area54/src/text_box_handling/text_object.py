@@ -9,14 +9,13 @@ class TextObject(object):
     '''
     @note: an object for text data and several methods
     '''
+    font_name = 'times'
     def __init__(self, text = ''):
         '''
         @var _text: input
         @type _text: str
         @var _font_size: font site in points
         @type _font_size: int
-        @var _font_name: font type name
-        @type _font_name: str
         @var _scale_width: text scaling in x dimension
         @type _scale_width: float
         @var _scale_height: text scaling in y dimension
@@ -26,7 +25,6 @@ class TextObject(object):
 
         self._text = text
         self._font_size = 1
-        self._font_name = 'times'
         self._scale_width = 1.0
         self._scale_height = 1.0
         self._width, self._height = self.check_text_dimensions()
@@ -82,7 +80,7 @@ class TextObject(object):
         @rtype: tuple of float, float
         @note: text_object.check_text_dimensions() - A method which returns the height and width in pixels of the text_str using the current font size
         '''
-        font_family = (self._font_name, self._font_size)
+        font_family = (TextObject.font_name, self._font_size)
         self._font = tkFont.Font(family = font_family, size = self._font_size)
         
         txt_height = self._font.metrics('linespace') 
@@ -114,5 +112,12 @@ class TextObject(object):
         self._scale_width *= width_scale
         self._scale_height *= height_scale
         
+    def set_font_name(self, font_name):
+        '''
+        @summary: 
+        @param font_name: set new font name
+        @type font_name: str 
+        '''
+        self.font_name = font_name
     # alias
     scale_abs = scale

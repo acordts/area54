@@ -3,10 +3,13 @@
 '''
 @author: acordts
 '''
-from PyQt4 import QtGui, QtCore
-from PyQt4.Qt import QString, QStyle
+from PyQt4 import QtGui
 from PyQt4.QtCore import pyqtSlot
 import sys
+
+from text_box_handling import split_lib
+from text_box_handling.text_box import TextBox
+
 
 class MainWindow(object):
     '''
@@ -94,21 +97,27 @@ class MainWindow(object):
         @summary: calculate best fitting
         '''
         print '>>> scale'
-
-        text = str(self._box_txt.text())
         box_width = int(self._box_width.text())
         box_height = int(self._box_height.text())
         self._dst_lbl.resize(box_width, box_height)
         
-        from text_box_handling import split_lib
-        line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)
-        lines = split_lib.split_to_line_objects_v2(text, line_cnt, ' ')
+        text = str(self._box_txt.text())
+        line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)        
+        line_height = box_height / line_cnt
+        
+        txt_lines = split_lib.split_to_line_objects_v2(text, line_cnt, delimiter=' ')
 
-        text = '\n'.join([str(l) for l in lines])
+        if txt_lines:
+            first_line = txt_lines[0]
+            txt_box = TextBox(box_width, line_height)
+            txt_box.set_text(str(first_line))
+            font_size = txt_box.get_max_font_size()
+
+        text = '\n'.join([str(l) for l in txt_lines])
         self._dst_lbl.setText(text)
-        self._dst_lbl.setFont(QtGui.QFont(self._fnt_family, 10))
+        self._dst_lbl.setFont(QtGui.QFont(self._fnt_family, font_size))
         self._dst_lbl.show()
-
+        
 def main():
     app = QtGui.QApplication(sys.argv)
     mw = MainWindow()

@@ -6,8 +6,8 @@ import math
 
 from text_object import TextObject
 
-
 class TextBox(object):
+    font_name = TextObject.font_name
     def __init__(self, width, height):
         '''
         @param width: text box width in pixel
@@ -15,6 +15,8 @@ class TextBox(object):
         @param height: text box height in pixel
         @type height: int
         '''
+        TextObject.font_name = self.font_name
+        
         self._width = width
         self._height = height
         self._txt_obj = TextObject()
@@ -28,6 +30,14 @@ class TextBox(object):
         @type text: str or unicode
         '''
         self._txt_obj.text_str(text)
+
+    def set_font(self, font_name):
+        '''
+        @param font_name: valid font name
+        @type font_name: str
+        '''
+        self.font_name = font_name
+        TextObject.font_name = font_name
 
     def get_max_font_size(self):
         '''

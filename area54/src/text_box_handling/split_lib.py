@@ -107,7 +107,10 @@ def split_to_line_objects_v2(text, line_cnt, delimiter=' ', opt_len=0):
         line.text_str(str(line) + delimiter)
 
     text = delimiter.join(words[word_nr + 1:])
-    if line_cnt == 2:
+    
+    if line_cnt == 1:
+        return [line]
+    elif line_cnt == 2:
         return [line, TextObject(text)]
 
     lines = [line]
