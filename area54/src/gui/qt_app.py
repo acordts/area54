@@ -55,11 +55,12 @@ class MainWindow(object):
         lbl_height.setText('box height')
         lbl_height.resize(lbl_x_range, self._line_height)
         lbl_height.move(self._margin, self._line_height + self._margin)
-
+        
         lbl_width = QtGui.QLabel(self._main_window)
         lbl_width.setText('box width')
         lbl_width.resize(lbl_x_range, self._line_height)
         lbl_width.move(self._margin, 2*self._line_height + self._margin)
+        lbl_width.setScaledContents(True)
 
         self._box_txt = QtGui.QLineEdit(pre_def_txt, self._main_window)
         self._box_txt.resize(600, self._line_height)
@@ -97,7 +98,7 @@ class MainWindow(object):
         @summary: calculate best fitting of font size and line breaks
         '''
         self._dst_lbl.setAutoFillBackground(True)
-        self._dst_lbl.setAlignment(QtCore.Qt.AlignCenter)
+        self._dst_lbl.setAlignment(QtCore.Qt.AlignTop)
         self._dst_lbl.setStyleSheet("QLabel { background-color: rgba(255, 255, 255, 255); }")        
         
         print '>>> wrap'
@@ -116,7 +117,7 @@ class MainWindow(object):
             txt_box = TextBox(box_width, line_height)
             txt_box.set_text(str(first_line))
             font_size = txt_box.get_max_font_size()
-
+        
         text = '\n'.join([str(l) for l in txt_lines])
         self._dst_lbl.setText(text)
         self._dst_lbl.setFont(QtGui.QFont(self._fnt_family, font_size))
