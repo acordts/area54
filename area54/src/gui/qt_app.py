@@ -3,7 +3,7 @@
 '''
 @author: acordts
 '''
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
 import sys
 
@@ -43,8 +43,8 @@ class MainWindow(object):
         '''
         lbl_x_range = 80
         box_x_range = 50
-        #pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
-        pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam'
+        pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+        #pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam'
         
         lbl_txt = QtGui.QLabel(self._main_window)
         lbl_txt.setText('text')
@@ -94,15 +94,19 @@ class MainWindow(object):
     @pyqtSlot()
     def _warp(self):
         '''
-        @summary: calculate best fitting
+        @summary: calculate best fitting of font size and line breaks
         '''
-        print '>>> warp'
+        self._dst_lbl.setAutoFillBackground(True)
+        self._dst_lbl.setAlignment(QtCore.Qt.AlignCenter)
+        self._dst_lbl.setStyleSheet("QLabel { background-color: rgba(255, 255, 255, 255); }")        
+        
+        print '>>> wrap'
         box_width = int(self._box_width.text())
         box_height = int(self._box_height.text())
         self._dst_lbl.resize(box_width, box_height)
-        
+
         text = str(self._box_txt.text())
-        line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)        
+        line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)
         line_height = box_height / line_cnt
         
         txt_lines = split_lib.split_to_line_objects_v2(text, line_cnt, delimiter=' ')
