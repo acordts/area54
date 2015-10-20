@@ -41,7 +41,7 @@ class MainWindow(object):
         box_x_range = 50
         #pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
         #pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam'
-        pre_def_txt = 'Lorem ipsum'
+        pre_def_txt = 'Lorem ipsum foobar'
         lbl_txt = QtGui.QLabel(self._main_window)
         lbl_txt.setText('text')
         lbl_txt.resize(lbl_x_range, self._line_height)
@@ -62,6 +62,11 @@ class MainWindow(object):
         lbl_font_size.resize(lbl_x_range, self._line_height)
         lbl_font_size.move(self._margin, 3*self._line_height + self._margin)
 
+        lbl_lines = QtGui.QLabel(self._main_window)
+        lbl_lines.setText('lines')
+        lbl_lines.resize(lbl_x_range, self._line_height)
+        lbl_lines.move(self._margin, 4*self._line_height + self._margin)
+
         self._box_txt = QtGui.QLineEdit(pre_def_txt, self._main_window)
         self._box_txt.resize(600, self._line_height)
         self._box_txt.move(self._margin + lbl_x_range, self._margin)
@@ -78,16 +83,24 @@ class MainWindow(object):
         self._box_font_size.resize(box_x_range, self._line_height)
         self._box_font_size.move(self._margin + lbl_x_range, 3 * self._line_height + self._margin)
 
-        self._log_lbl = QtGui.QLabel(self._main_window)
-        self._log_lbl.move(self._margin, self._height - 100 - self._margin)
-        self._log_lbl.resize(self._width - 2*self._margin, 100)
+        self._box_lines = QtGui.QLineEdit('1', self._main_window)
+        self._box_lines.resize(box_x_range, self._line_height)
+        self._box_lines.move(self._margin + lbl_x_range, 4 * self._line_height + self._margin)
 
-        btn = QtGui.QPushButton('scale font size', self._main_window)
+        btn = QtGui.QPushButton('calc font size', self._main_window)
         btn.released.connect(self._scale_font_size)
         btn.move(self._width - btn.width()-self._margin, self._margin)
 
+        btn = QtGui.QPushButton('stretch', self._main_window)
+        btn.released.connect(self._stretch)
+        btn.move(self._width - btn.width()-self._margin, self._line_height + 2*self._margin)
+
+        btn = QtGui.QPushButton('linebreaks', self._main_window)
+        btn.released.connect(self._linebreaks)
+        btn.move(self._width - btn.width()-self._margin, 2*self._line_height + 3*self._margin)
+
         self._dst_lbl = QtGui.QLabel(self._main_window)
-        self._dst_lbl.move(self._margin, 5 * self._line_height + self._margin)
+        self._dst_lbl.move(self._margin, 6 * self._line_height + self._margin)
         self._dst_lbl.setAutoFillBackground(True)
         self._dst_lbl.setAlignment(QtCore.Qt.AlignTop)
         self._dst_lbl.setStyleSheet("QLabel { background-color: rgba(255, 255, 255, 255); }")        
@@ -105,7 +118,7 @@ class MainWindow(object):
         '''
         @summary: calculate best fitting of font size and line breaks
         '''
-        print '>>> wrap'
+        print '>>> best font size'
         box_width = int(self._box_width.text())
         box_height = int(self._box_height.text())
         text = str(self._box_txt.text())
@@ -121,15 +134,53 @@ class MainWindow(object):
             qfont.setPointSize(qfont.pointSize() + 1)
             self._dst_lbl.setFont(qfont)
             self._dst_lbl.adjustSize()
-
-        qfont.setPointSize(qfont.pointSize() - 1)
-        self._dst_lbl.setFont(qfont)
-        self._dst_lbl.adjustSize()
+        else:
+            qfont.setPointSize(qfont.pointSize() - 1)
+            self._dst_lbl.setFont(qfont)
+            self._dst_lbl.adjustSize()
         
         self._dst_lbl.resize(box_width, box_height)
         self._dst_lbl.show()
         
         self._box_font_size.setText(str(qfont.pointSize()))
+    
+    def _stretch(self):
+        '''
+        @summary: scale label width
+        '''
+        print 'stretch'
+        box_width = int(self._box_width.text())
+        box_height = int(self._box_height.text())
+        text = str(self._box_txt.text())
+
+        self._dst_lbl.resize(box_width, box_height)
+
+        self._dst_lbl.setText(text)
+        
+        qfont = QtGui.QFont(self._fnt_family, 1)
+        self._dst_lbl.setFont(qfont)
+
+        while box_height >= self._dst_lbl.height():
+            qfont.setPointSize(qfont.pointSize() + 1)
+            self._dst_lbl.setFont(qfont)
+            self._dst_lbl.adjustSize()
+        else:
+            qfont.setPointSize(qfont.pointSize() - 1)
+            self._dst_lbl.setFont(qfont)
+            self._dst_lbl.adjustSize()
+        
+        txt_width = self._dst_lbl.width()
+        width_scale = 100 * box_width / txt_width
+        qfont.setStretch(width_scale)
+        self._dst_lbl.setFont(qfont)
+        
+        self._dst_lbl.resize(box_width, box_height)
+        self._dst_lbl.show()
+        self._box_font_size.setText(str(qfont.pointSize()))
+    
+    def _linebreaks(self):
+        print 'linebreaks'
+        
         
 def main():
     app = QtGui.QApplication(sys.argv)
