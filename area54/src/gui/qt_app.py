@@ -7,10 +7,6 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
 import sys
 
-from text_box_handling import split_lib
-from text_box_handling.text_box import TextBox
-
-
 class MainWindow(object):
     '''
     @summary:
@@ -43,9 +39,9 @@ class MainWindow(object):
         '''
         lbl_x_range = 80
         box_x_range = 50
-        pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
+        #pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est'
         #pre_def_txt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam'
-        
+        pre_def_txt = 'Lorem ipsum'
         lbl_txt = QtGui.QLabel(self._main_window)
         lbl_txt.setText('text')
         lbl_txt.resize(lbl_x_range, self._line_height)
@@ -60,7 +56,11 @@ class MainWindow(object):
         lbl_width.setText('box width')
         lbl_width.resize(lbl_x_range, self._line_height)
         lbl_width.move(self._margin, 2*self._line_height + self._margin)
-        lbl_width.setScaledContents(True)
+
+        lbl_font_size = QtGui.QLabel(self._main_window)
+        lbl_font_size.setText('font size')
+        lbl_font_size.resize(lbl_x_range, self._line_height)
+        lbl_font_size.move(self._margin, 3*self._line_height + self._margin)
 
         self._box_txt = QtGui.QLineEdit(pre_def_txt, self._main_window)
         self._box_txt.resize(600, self._line_height)
@@ -74,16 +74,24 @@ class MainWindow(object):
         self._box_width.resize(box_x_range, self._line_height)
         self._box_width.move(self._margin + lbl_x_range, 2 * self._line_height + self._margin)
 
+        self._box_font_size = QtGui.QLineEdit('1', self._main_window)
+        self._box_font_size.resize(box_x_range, self._line_height)
+        self._box_font_size.move(self._margin + lbl_x_range, 3 * self._line_height + self._margin)
+
         self._log_lbl = QtGui.QLabel(self._main_window)
         self._log_lbl.move(self._margin, self._height - 100 - self._margin)
         self._log_lbl.resize(self._width - 2*self._margin, 100)
 
-        btn = QtGui.QPushButton('warp', self._main_window)
-        btn.released.connect(self._warp)
+        btn = QtGui.QPushButton('scale font size', self._main_window)
+        btn.released.connect(self._scale_font_size)
         btn.move(self._width - btn.width()-self._margin, self._margin)
 
         self._dst_lbl = QtGui.QLabel(self._main_window)
-        self._dst_lbl.move(self._margin, 4 * self._line_height + self._margin)
+        self._dst_lbl.move(self._margin, 5 * self._line_height + self._margin)
+        self._dst_lbl.setAutoFillBackground(True)
+        self._dst_lbl.setAlignment(QtCore.Qt.AlignTop)
+        self._dst_lbl.setStyleSheet("QLabel { background-color: rgba(255, 255, 255, 255); }")        
+
         self._dst_lbl.hide()
         
     def show(self):
@@ -93,35 +101,35 @@ class MainWindow(object):
         self._main_window.show()
         
     @pyqtSlot()
-    def _warp(self):
+    def _scale_font_size(self):
         '''
         @summary: calculate best fitting of font size and line breaks
         '''
-        self._dst_lbl.setAutoFillBackground(True)
-        self._dst_lbl.setAlignment(QtCore.Qt.AlignTop)
-        self._dst_lbl.setStyleSheet("QLabel { background-color: rgba(255, 255, 255, 255); }")        
-        
         print '>>> wrap'
         box_width = int(self._box_width.text())
         box_height = int(self._box_height.text())
+        text = str(self._box_txt.text())
+
         self._dst_lbl.resize(box_width, box_height)
 
-        text = str(self._box_txt.text())
-        line_cnt = split_lib.opt_line_cnt(box_width, box_height, text)
-        line_height = box_height / line_cnt
-        
-        txt_lines = split_lib.split_to_line_objects_v2(text, line_cnt, delimiter=' ')
-
-        if txt_lines:
-            first_line = txt_lines[0]
-            txt_box = TextBox(box_width, line_height)
-            txt_box.set_text(str(first_line))
-            font_size = txt_box.get_max_font_size()
-        
-        text = '\n'.join([str(l) for l in txt_lines])
         self._dst_lbl.setText(text)
-        self._dst_lbl.setFont(QtGui.QFont(self._fnt_family, font_size))
+        
+        qfont = QtGui.QFont(self._fnt_family, 1)
+        self._dst_lbl.setFont(qfont)
+
+        while box_width >= self._dst_lbl.width() and box_height >= self._dst_lbl.height():
+            qfont.setPointSize(qfont.pointSize() + 1)
+            self._dst_lbl.setFont(qfont)
+            self._dst_lbl.adjustSize()
+
+        qfont.setPointSize(qfont.pointSize() - 1)
+        self._dst_lbl.setFont(qfont)
+        self._dst_lbl.adjustSize()
+        
+        self._dst_lbl.resize(box_width, box_height)
         self._dst_lbl.show()
+        
+        self._box_font_size.setText(str(qfont.pointSize()))
         
 def main():
     app = QtGui.QApplication(sys.argv)
