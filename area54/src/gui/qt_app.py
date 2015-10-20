@@ -158,14 +158,15 @@ class MainWindow(object):
         self._dst_lbl.setText(text)
         
         qfont = QtGui.QFont(self._fnt_family, 1)
+        qfont.setPixelSize(1)
         self._dst_lbl.setFont(qfont)
 
         while box_height >= self._dst_lbl.height():
-            qfont.setPointSize(qfont.pointSize() + 1)
+            qfont.setPixelSize(qfont.pixelSize() + 1)
             self._dst_lbl.setFont(qfont)
             self._dst_lbl.adjustSize()
         else:
-            qfont.setPointSize(qfont.pointSize() - 1)
+            qfont.setPixelSize(qfont.pixelSize() - 1)
             self._dst_lbl.setFont(qfont)
             self._dst_lbl.adjustSize()
         
@@ -176,7 +177,7 @@ class MainWindow(object):
         
         self._dst_lbl.resize(box_width, box_height)
         self._dst_lbl.show()
-        self._box_font_size.setText(str(qfont.pointSize()))
+        self._box_font_size.setText(str(qfont.pixelSize()))
     
     def _linebreaks(self):
         print 'linebreaks'
