@@ -1,33 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-export class Hero {
-  id: number;
-  name: string;
-}
+import { Hero } from './hero';
+import { HeroService } from './hero.service';
+
+import { Signal } from './base.components/app.signals/signal';
+import { SignalService } from './base.components/app.signals/signal.service';
 
 @Component({
   selector: 'my-app',
-  template: `
-    <h1>{{title}}</h1>
-    <h2>{{hero.name}} details!</h2>
-    <div><label>id: </label>{{hero.id}}</div>
-    <div>
-      <label>name: </label>
-      <input [(ngModel)]="hero.name" placeholder="name">
-    </div>
-    `
+  templateUrl: 'app/app.component.html',
+  styleUrls:  ['app/app.component.css']
+  providers: [
+	HeroService, 
+	SignalService
+  ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Tour of Heroes';
-  hero: Hero = {
-    id: 1,
-    name: 'Windstorm'
-  };
+  heroes: Hero[];
+  signals: Signal[];
+  selectedHero: Hero;
+  selectedSignal: Signal;
+
+  constructor(private heroService: HeroService, private signalService: SignalService) { }
+
+  getHeroes(): void {
+    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+  }
+
+  getSignals(): void {
+    this.signalService.getSignals().then(signals => this.signals = signals);
+  }
+  
+  ngOnInit(): void {
+    this.getHeroes();
+	this.getSignals();
+  }
+
+  onSelect(hero: Hero): void {
+    this.selectedHero = hero;
+  }
+
+  onSelectSignal(signal: Signal): void {
+    this.selectedSignal = signal;
+  }
 }
-
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
