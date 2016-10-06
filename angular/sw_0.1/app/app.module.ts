@@ -9,9 +9,16 @@ import { AttachmentsContainer } from './attachments.container/attachments.contai
 import { LinksContainer } from './links.container/links.container'
 import { ChatContainer } from './chat.container/chat.container'
 
+import { EmbedcodeService } from './embedcode.routing/embedcode.service'
+import { EmbedcodeSurveyComponent } from './embedcode.routing/embedcode.survey.component'
+import { EmbedcodeDetailComponent } from './embedcode.routing/embedcode.details.component'
+
+import { routing } from './app.routing'
+
 @NgModule({
   imports: [
     BrowserModule,
+    routing
   ],
   declarations: [
 	AppComponent,
@@ -21,6 +28,11 @@ import { ChatContainer } from './chat.container/chat.container'
 	AttachmentsContainer,
 	LinksContainer,
 	ChatContainer,
+	EmbedcodeDetailComponent,
+	EmbedcodeSurveyComponent
+  ],
+  providers: [
+    EmbedcodeService
   ],
   bootstrap: [ AppComponent ]
 })
