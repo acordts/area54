@@ -1,0 +1,23 @@
+<div *ngIf="webcast">
+  <h2>{{webcast.title}}</h2>
+  <div>
+    <label>id: </label>{{webcast.id}}</div>
+  <div>
+    <label>name: </label> {{webcast.title}}
+  </div>
+  <video-component></video-component>
+  <slide-component></slide-component>
+  <div>
+    embedcode
+  </div>
+  <div>
+    agenda
+  </div>
+  <div>
+    twitter
+  </div>
+  <div>
+    facebook
+  </div>
+  <button (click)="goBack()">Back</button>
+</div>

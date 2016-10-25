@@ -1,0 +1,15 @@
+<h2>Upcoming Webcasts</h2>
+<ul>
+  <li *ngFor="let webcast of webcasts"
+    [class.selected]="webcast === selectedWebcast"
+    (click)="onSelect(webcast)">
+    {{webcast.id}} {{webcast.title}}
+  </li>
+</ul>
+<div *ngIf="selectedWebcast">
+  <h2>
+    Selected webcast: {{selectedWebcast.title | uppercase}}
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>
+
