@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+   <body>
+      <h1>EmbedCode</h1>
+      <p>Open JavaScript console to watch output.</p>
+      <script>AUTOBAHN_DEBUG = true;</script>
+      <script src="http://autobahn.s3.amazonaws.com/autobahnjs/latest/autobahn.min.jgz"></script>
+
+      <script>
+         // the URL of the WAMP Router (Crossbar.io)
+         //
+         // the WAMP connection to the Router
+         //
+         var connection = new autobahn.Connection({
+            url: "ws://10.0.5.102:8080/ws",
+            realm: "realm1"
+         });
+
+		 var active_session;
+		 var guid = 'guid-1';
+
+
+         // fired when connection is established and session attached
+         //
+         connection.onopen = function (session, details) {
+			active_session = session;
+            console.log("Connected");
+
+            function slide_updated (args) {
+               var current_slide = args[0];
+               console.log("slide_updated() event received with current_slide " + current_slide);
+               document.getElementById("slide").textContent=current_slide;
+            }
+            active_session.subscribe('com.example.slide_updated.' + guid, slide_updated).then(
+               function (sub) {
+                  console.log('subscribed to topic');
+               },
+               function (err) {
+                  console.log('failed to subscribe to topic', err);
+               }
+            );
+
+            session.call('com.example.get_slide').then(
+               function (slide_name) {
+                  console.log("get_slide() result:", slide_name);
+                  document.getElementById("slide").textContent=slide_name;
+               },
+               function (err) {
+                  console.log("get_slide() error:", err);
+               }
+            );
+         };
+
+         // fired when connection was lost (or could not be established)
+         //
+         connection.onclose = function (reason, details) {
+            console.log("Connection lost: " + reason);
+         }
+
+
+         // now actually open the connection
+         //
+         connection.open();
+      </script>
+
+   <span id="slide">unset</span>
+   </body>
+</html>
